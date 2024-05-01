@@ -20,5 +20,3 @@ set tabstop=2
 set ai
 
 set mouse=a
-
-nmap <C-s> :w!<cr>
