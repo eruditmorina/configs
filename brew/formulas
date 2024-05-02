@@ -1,6 +1,7 @@
 awscli
 bash-completion
 git
+go
 nvm
 postgresql
 pyenv

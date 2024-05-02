@@ -30,3 +30,8 @@ eval "$(pyenv init -)"
 
 # poetry
 export PATH="$HOME/.local/bin:$PATH"
+
+# golang
+export GOPATH="$HOME/go"
+export GOBIN="$GOPATH/bin"
+export PATH="$GOBIN:$PATH"
