@@ -35,3 +35,6 @@ export PATH="$HOME/.local/bin:$PATH"
 export GOPATH="$HOME/go"
 export GOBIN="$GOPATH/bin"
 export PATH="$GOBIN:$PATH"
+
+# rustup
+export PATH="$HOME/.cargo/bin:$PATH"
