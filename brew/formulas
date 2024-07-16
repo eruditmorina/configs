@@ -3,6 +3,7 @@ bash-completion
 git
 go
 nvm
+openjdk
 postgresql
 pyenv
 redis
