@@ -1,10 +1,9 @@
-awscli
 bash-completion
 git
+gh
 go
 nvm
 openjdk
-postgresql
 pyenv
 redis
 tmux
