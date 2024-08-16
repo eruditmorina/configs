@@ -1,6 +1,7 @@
 bash-completion
-git
+fzf
 gh
+git
 go
 nvm
 openjdk
