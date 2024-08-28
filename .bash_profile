@@ -28,9 +28,6 @@ export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
-# poetry
-export PATH="$HOME/.local/bin:$PATH"
-
 # golang
 export GOPATH="$HOME/go"
 export GOBIN="$GOPATH/bin"
@@ -38,6 +35,10 @@ export PATH="$GOBIN:$PATH"
 
 # rustup
 export PATH="$HOME/.cargo/bin:$PATH"
+
+# jenv
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
 
 # java
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
