@@ -40,9 +40,5 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
 
-# java
-export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
-export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"
-
 # fzf
 eval "$(fzf --bash)"
