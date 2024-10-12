@@ -8,7 +8,9 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   "ui_font_size": 13,
+  "ui_font_family": "Zed Plex Mono",
   "buffer_font_size": 13,
+  "buffer_font_family": "Zed Plex Mono",
   "theme": "Gruvbox Dark Hard",
   "telemetry": {
     "diagnostics": false,
