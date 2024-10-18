@@ -9,6 +9,7 @@
     "metrics": false
   },
   "vim_mode": true,
+  "cursor_blink": false,
   "indent_guides": {
     "enabled": false
   },
