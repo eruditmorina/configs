@@ -16,6 +16,7 @@
     },
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
+  "python.analysis.autoImportCompletions": true,
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": false
