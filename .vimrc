@@ -20,3 +20,4 @@ set tabstop=2
 set ai
 
 set mouse=a
+set clipboard=unnamed
