@@ -30,10 +30,9 @@ vim.opt.wildmode = 'list:longest'
 -- when opening a file with a command (like :e),
 -- don't suggest files from:
 vim.opt.wildignore = '.hg,.svn,*~,*.png,*.jpg,*.gif,*.min.js,*.swp,*.o,vendor,dist,_site'
--- tabs
-vim.opt.shiftwidth = 4
-vim.opt.softtabstop = 4
-vim.opt.tabstop = 4
+-- tabs vs spaces
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
 vim.opt.expandtab = true
 -- case-insensitive search/replace
 vim.opt.ignorecase = true
