@@ -153,15 +153,15 @@ require("lazy").setup({
       end
     },
     -- fuzzy finder
-	  {
-		  'junegunn/fzf.vim',
+    {
+      'junegunn/fzf.vim',
       dependencies = { 'junegunn/fzf' },
-		  config = function()
-			  -- stop putting a giant window over my editor
-			  vim.g.fzf_layout = { down = '~20%' }
+      config = function()
+        -- stop putting a giant window over my editor
+        vim.g.fzf_layout = { down = '~20%' }
         -- bring up :Files faster
         vim.keymap.set('n', '<leader>sf', ':Files<CR>', { desc = '[S]earch [F]iles' })
-		  end
-	  }
+      end
+    }
   }
 })
