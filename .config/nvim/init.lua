@@ -3,9 +3,7 @@
 vim.g.mapleader = " "
 
 -------------------------------------------------------------------------------
---
 -- preferences
---
 -------------------------------------------------------------------------------
 -- never folding
 vim.opt.foldenable = false
@@ -61,15 +59,13 @@ vim.opt.listchars = 'tab:^ ,nbsp:¬,extends:»,precedes:«,trail:•'
 -- enable mouse mode
 vim.opt.mouse = 'a'
 -- sync clipboard
--- schedule the setting because it can increase startup-time
+-- schedule the setting after `UiEnter` because it can increase startup-time
 vim.schedule(function()
   vim.opt.clipboard = 'unnamedplus'
 end)
 
 -------------------------------------------------------------------------------
---
 -- plugin configuration
---
 -------------------------------------------------------------------------------
 -- get the manager
 -- https://github.com/folke/lazy.nvim
@@ -155,6 +151,17 @@ require("lazy").setup({
       config = function()
         require("gitsigns").setup()
       end
-    }
+    },
+    -- fuzzy finder
+	  {
+		  'junegunn/fzf.vim',
+      dependencies = { 'junegunn/fzf' },
+		  config = function()
+			  -- stop putting a giant window over my editor
+			  vim.g.fzf_layout = { down = '~20%' }
+        -- bring up :Files faster
+        vim.keymap.set('n', '<leader>sf', ':Files<CR>', { desc = '[S]earch [F]iles' })
+		  end
+	  }
   }
 })
