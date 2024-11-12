@@ -1,3 +1,7 @@
+-- set <space> as the leader key
+-- must happen before plugins are loaded (otherwise wrong leader will be used)
+vim.g.mapleader = " "
+
 -------------------------------------------------------------------------------
 --
 -- preferences
@@ -54,6 +58,13 @@ vim.opt.colorcolumn = '120'
 -- show more hidden characters
 -- also, show tabs nicely
 vim.opt.listchars = 'tab:^ ,nbsp:¬,extends:»,precedes:«,trail:•'
+-- enable mouse mode
+vim.opt.mouse = 'a'
+-- sync clipboard
+-- schedule the setting because it can increase startup-time
+vim.schedule(function()
+  vim.opt.clipboard = 'unnamedplus'
+end)
 
 -------------------------------------------------------------------------------
 --
@@ -80,7 +91,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 -- Setup lazy.nvim
 require("lazy").setup({
-  spec = {
+  {
     -- main color scheme
     {
       "wincent/base16-nvim",
