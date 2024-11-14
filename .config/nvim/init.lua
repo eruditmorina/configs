@@ -153,14 +153,126 @@ require("lazy").setup({
       end
     },
     -- fuzzy finder
+    -- {
+    --   'junegunn/fzf.vim',
+    --   dependencies = { 'junegunn/fzf' },
+    --   config = function()
+    --     -- stop putting a giant window over my editor
+    --     vim.g.fzf_layout = { down = '~20%' }
+    --     -- bring up :Files faster
+    --     vim.keymap.set('n', '<leader>sf', ':Files<CR>', { desc = '[S]earch [F]iles' })
+    --   end
+    -- },
     {
-      'junegunn/fzf.vim',
-      dependencies = { 'junegunn/fzf' },
+      'nvim-telescope/telescope.nvim',
+      dependencies = { 'nvim-lua/plenary.nvim' },
       config = function()
-        -- stop putting a giant window over my editor
-        vim.g.fzf_layout = { down = '~20%' }
-        -- bring up :Files faster
-        vim.keymap.set('n', '<leader>sf', ':Files<CR>', { desc = '[S]earch [F]iles' })
+        require("telescope").setup {
+          -- stop putting a giant window over my editor
+          defaults = {
+            layout_config = {
+              bottom_pane = { height = 20, prompt_position = "bottom" }
+            },
+            layout_strategy = "bottom_pane"
+          }
+        }
+        local builtin = require 'telescope.builtin'
+        vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
+        vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
+        vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+        vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
+        vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+        vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+        vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
+        vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
+        vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+        vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      end
+    },
+    -- -- quick navigation
+    -- {
+    --   'ggandor/leap.nvim',
+    --   config = function()
+    --     require('leap').create_default_mappings()
+    --   end
+    -- },
+    -- -- better %
+    -- {
+    --   'andymass/vim-matchup',
+    --   config = function()
+    --     vim.g.matchup_matchparen_offscreen = { method = "popup" }
+    --   end
+    -- },
+    -- LSP Configs
+    {
+      'neovim/nvim-lspconfig',
+      config = function()
+        -- setup language servers
+        local lspconfig = require('lspconfig')
+        -- Pyright
+        lspconfig.pyright.setup {
+          settings = {
+            pyright = {
+              -- Using Ruff's import organizer
+              disableOrganizeImports = true,
+            },
+            python = {
+              analysis = {
+                -- Ignore all files for analysis to exclusively use Ruff for linting
+                ignore = { '*' },
+              },
+            },
+          },
+        }
+        -- Ruff
+        lspconfig.ruff.setup {
+          init_options = {
+            settings = {
+              -- Ruff language server settings go here
+            }
+          }
+        }
+        vim.api.nvim_create_autocmd("LspAttach", {
+          group = vim.api.nvim_create_augroup('lsp_attach_disable_ruff_hover', { clear = true }),
+          callback = function(args)
+            local client = vim.lsp.get_client_by_id(args.data.client_id)
+            if client == nil then
+              return
+            end
+            if client.name == 'ruff' then
+              -- Disable hover in favor of Pyright
+              client.server_capabilities.hoverProvider = false
+            end
+          end,
+          desc = 'LSP: Disable hover capability from Ruff',
+        })
+      end
+    },
+    -- linter
+    {
+      'mfussenegger/nvim-lint',
+      config = function()
+        require("lint").linters_by_ft = {
+          python = {"mypy"}
+        }
+        vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {
+          callback = function()
+            -- try_lint without arguments runs the linters defined in `linters_by_ft` for the current filetype
+            require("lint").try_lint()
+          end
+        })
+      end
+    },
+    -- auto formatter
+    {
+      'stevearc/conform.nvim',
+      config = function()
+        require("conform").setup {
+          formatters_by_ft = {
+            python = { "ruff" },
+          },
+          format_on_save = { lsp_format = "fallback" }
+        }
       end
     }
   }
