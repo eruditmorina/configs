@@ -220,18 +220,31 @@ require("lazy").setup({
               analysis = {
                 -- Ignore all files for analysis to exclusively use Ruff for linting
                 ignore = { '*' },
+                typeCheckingMode = 'off',
               },
             },
           },
         }
         -- Ruff
+        -- watch for configuration file path
+        local config_path = vim.fn.getcwd() .. '/pyproject.toml'
+        if vim.fn.filereadable(vim.fn.getcwd() .. '/ruff.toml') then
+          config_path = vim.fn.getcwd() .. '/ruff.toml'
+        end
         lspconfig.ruff.setup {
+          -- trace = 'messages',
           init_options = {
             settings = {
-              -- Ruff language server settings go here
+              -- logLevel = 'debug',
+              configuration = config_path,
             }
           }
         }
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          group = vim.api.nvim_create_augroup("FormatOnWrite", { clear = true }),
+          callback = function() vim.lsp.buf.format { async = true } end,
+          desc = 'LSP: Run ruff format on buffer write',
+        })
         vim.api.nvim_create_autocmd("LspAttach", {
           group = vim.api.nvim_create_augroup('lsp_attach_disable_ruff_hover', { clear = true }),
           callback = function(args)
