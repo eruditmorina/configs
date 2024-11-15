@@ -325,6 +325,17 @@ require("lazy").setup({
         handler_opts = { border = "none" },
       },
       config = function(_, opts) require'lsp_signature'.setup(opts) end
+    },
+    -- syntax highlighting
+    {
+      "nvim-treesitter/nvim-treesitter",
+      build = ":TSUpdate",
+      config = function ()
+        local configs = require("nvim-treesitter.configs")
+        configs.setup {
+          highlight = { enable = true },
+        }
+      end
     }
   }
 })
