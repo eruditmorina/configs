@@ -42,13 +42,12 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 -- never ever make my terminal beep
 vim.opt.vb = true
--- more useful diffs (nvim -d)
---- by ignoring whitespace
+-- more useful diffs (nvim -d) by ignoring whitespace
 vim.opt.diffopt:append('iwhite')
---- and using a smarter algorithm
---- https://vimways.org/2018/the-power-of-diff/
---- https://stackoverflow.com/questions/32365271/whats-the-difference-between-git-diff-patience-and-git-diff-histogram
---- https://luppeng.wordpress.com/2020/10/10/when-to-use-each-of-the-git-diff-algorithms/
+-- and using a smarter algorithm
+-- https://vimways.org/2018/the-power-of-diff/
+-- https://stackoverflow.com/questions/32365271/whats-the-difference-between-git-diff-patience-and-git-diff-histogram
+-- https://luppeng.wordpress.com/2020/10/10/when-to-use-each-of-the-git-diff-algorithms/
 vim.opt.diffopt:append('algorithm:histogram')
 vim.opt.diffopt:append('indent-heuristic')
 -- show the guide for long lines
@@ -189,20 +188,6 @@ require("lazy").setup({
         vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
       end
     },
-    -- -- quick navigation
-    -- {
-    --   'ggandor/leap.nvim',
-    --   config = function()
-    --     require('leap').create_default_mappings()
-    --   end
-    -- },
-    -- -- better %
-    -- {
-    --   'andymass/vim-matchup',
-    --   config = function()
-    --     vim.g.matchup_matchparen_offscreen = { method = "popup" }
-    --   end
-    -- },
     -- LSP Configs
     {
       'neovim/nvim-lspconfig',
@@ -220,7 +205,7 @@ require("lazy").setup({
               analysis = {
                 -- Ignore all files for analysis to exclusively use Ruff for linting
                 ignore = { '*' },
-                typeCheckingMode = 'off',
+                typeCheckingMode = 'off', -- use Mypy instead
               },
             },
           },
@@ -266,7 +251,7 @@ require("lazy").setup({
       'mfussenegger/nvim-lint',
       config = function()
         require("lint").linters_by_ft = {
-          python = {"mypy"}
+          python = { "mypy" }
         }
         vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {
           callback = function()
@@ -287,6 +272,59 @@ require("lazy").setup({
           format_on_save = { lsp_format = "fallback" }
         }
       end
+    },
+    -- LSP based code completion
+    {
+      "hrsh7th/nvim-cmp",
+      -- load cmp on InsertEnter
+      event = "InsertEnter",
+      -- dependencies will only be loaded when cmp loads
+      dependencies = {
+        'neovim/nvim-lspconfig',
+        'hrsh7th/cmp-nvim-lsp',
+        'hrsh7th/cmp-buffer',
+        'hrsh7th/cmp-path',
+      },
+      config = function()
+        local cmp = require'cmp'
+        cmp.setup({
+          snippet = {
+            -- REQUIRED - must specify a snippet engine
+            expand = function(args)
+              vim.fn["vsnip#anonymous"](args.body)
+            end,
+          },
+          mapping = cmp.mapping.preset.insert({
+            ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+            ['<C-f>'] = cmp.mapping.scroll_docs(4),
+            ['<C-CR>'] = cmp.mapping.complete(),
+            ['<C-e>'] = cmp.mapping.abort(),
+            -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+            ['<CR>'] = cmp.mapping.confirm({ select = true }),
+          }),
+          sources = cmp.config.sources({
+            { name = 'nvim_lsp' },
+          }, {
+            { name = 'buffer' },
+          }),
+        })
+        -- enable completing paths in ':'
+        cmp.setup.cmdline(':', {
+          sources = cmp.config.sources({
+            { name = 'path' }
+          })
+        })
+      end
+    },
+    -- inline function signature
+    {
+      "ray-x/lsp_signature.nvim",
+      event = "VeryLazy",
+      opts = {
+        doc_lines = 0,
+        handler_opts = { border = "none" },
+      },
+      config = function(_, opts) require'lsp_signature'.setup(opts) end
     }
   }
 })
