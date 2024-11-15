@@ -333,6 +333,9 @@ require("lazy").setup({
       config = function ()
         local configs = require("nvim-treesitter.configs")
         configs.setup {
+          ensure_installed = { "javascript", "markdown", "python", "query", "rust", "vim", "vimdoc" },
+          sync_install = false,
+          auto_install = false,
           highlight = { enable = true },
         }
       end
