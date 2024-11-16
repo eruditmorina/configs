@@ -64,11 +64,17 @@ vim.schedule(function()
 end)
 
 -------------------------------------------------------------------------------
+-- shortcuts
+-------------------------------------------------------------------------------
+-- search files
+vim.keymap.set('', '<C-p>', '<cmd>Files<cr>')
+-- search buffers
+vim.keymap.set('n', '<leader>.', '<cmd>Buffers<cr>')
+
+-------------------------------------------------------------------------------
 -- plugin configuration
 -------------------------------------------------------------------------------
--- get the manager
--- https://github.com/folke/lazy.nvim
--- Bootstrap lazy.nvim
+-- get the manager: https://github.com/folke/lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -152,40 +158,12 @@ require("lazy").setup({
       end
     },
     -- fuzzy finder
-    -- {
-    --   'junegunn/fzf.vim',
-    --   dependencies = { 'junegunn/fzf' },
-    --   config = function()
-    --     -- stop putting a giant window over my editor
-    --     vim.g.fzf_layout = { down = '~20%' }
-    --     -- bring up :Files faster
-    --     vim.keymap.set('n', '<leader>sf', ':Files<CR>', { desc = '[S]earch [F]iles' })
-    --   end
-    -- },
     {
-      'nvim-telescope/telescope.nvim',
-      dependencies = { 'nvim-lua/plenary.nvim' },
+      'junegunn/fzf.vim',
+      dependencies = { 'junegunn/fzf' },
       config = function()
-        require("telescope").setup {
-          -- stop putting a giant window over my editor
-          defaults = {
-            layout_config = {
-              bottom_pane = { height = 20, prompt_position = "bottom" }
-            },
-            layout_strategy = "bottom_pane"
-          }
-        }
-        local builtin = require 'telescope.builtin'
-        vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-        vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-        vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
-        vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-        vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-        vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-        vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-        vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-        vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-        vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+        -- stop putting a giant window over my editor
+        vim.g.fzf_layout = { down = '~20%' }
       end
     },
     -- LSP Configs
@@ -297,7 +275,7 @@ require("lazy").setup({
           mapping = cmp.mapping.preset.insert({
             ['<C-b>'] = cmp.mapping.scroll_docs(-4),
             ['<C-f>'] = cmp.mapping.scroll_docs(4),
-            ['<C-CR>'] = cmp.mapping.complete(),
+            ['<C-Space>'] = cmp.mapping.complete(),
             ['<C-e>'] = cmp.mapping.abort(),
             -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
             ['<CR>'] = cmp.mapping.confirm({ select = true }),
@@ -307,6 +285,7 @@ require("lazy").setup({
           }, {
             { name = 'buffer' },
           }),
+          performance = { debounce = 0, throttle = 0 },
         })
         -- enable completing paths in ':'
         cmp.setup.cmdline(':', {
