@@ -222,6 +222,14 @@ require("lazy").setup({
           end,
           desc = 'LSP: Disable hover capability from Ruff',
         })
+        -- Rust
+        lspconfig.rust_analyzer.setup {
+          settings = {
+            ['rust-analyzer'] = {
+              cargo = { allFeatures = true }
+            }
+          }
+        }
       end
     },
     -- linter
