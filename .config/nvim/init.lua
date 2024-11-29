@@ -226,7 +226,7 @@ require("lazy").setup({
         lspconfig.rust_analyzer.setup {
           settings = {
             ['rust-analyzer'] = {
-              cargo = { allFeatures = true }
+              cargo = { features = "all" }
             }
           }
         }
@@ -254,6 +254,7 @@ require("lazy").setup({
         require("conform").setup {
           formatters_by_ft = {
             python = { "ruff" },
+            rust = { "rustfmt" },
           },
           format_on_save = { lsp_format = "fallback" }
         }
