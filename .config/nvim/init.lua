@@ -189,25 +189,7 @@ require("lazy").setup({
           },
         }
         -- Ruff
-        -- watch for configuration file path
-        local config_path = vim.fn.getcwd() .. '/pyproject.toml'
-        if vim.fn.filereadable(vim.fn.getcwd() .. '/ruff.toml') then
-          config_path = vim.fn.getcwd() .. '/ruff.toml'
-        end
-        lspconfig.ruff.setup {
-          -- trace = 'messages',
-          init_options = {
-            settings = {
-              -- logLevel = 'debug',
-              configuration = config_path,
-            }
-          }
-        }
-        vim.api.nvim_create_autocmd("BufWritePre", {
-          group = vim.api.nvim_create_augroup("FormatOnWrite", { clear = true }),
-          callback = function() vim.lsp.buf.format { async = true } end,
-          desc = 'LSP: Run ruff format on buffer write',
-        })
+        lspconfig.ruff.setup {}
         vim.api.nvim_create_autocmd("LspAttach", {
           group = vim.api.nvim_create_augroup('lsp_attach_disable_ruff_hover', { clear = true }),
           callback = function(args)
@@ -253,8 +235,7 @@ require("lazy").setup({
       config = function()
         require("conform").setup {
           formatters_by_ft = {
-            python = { "ruff" },
-            rust = { "rustfmt" },
+            python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
           },
           format_on_save = { lsp_format = "fallback" }
         }
@@ -321,7 +302,7 @@ require("lazy").setup({
       config = function ()
         local configs = require("nvim-treesitter.configs")
         configs.setup {
-          ensure_installed = { "javascript", "markdown", "python", "query", "rust", "vim", "vimdoc" },
+          ensure_installed = { "javascript", "markdown", "python", "rust", "typescript", "vim", "vimdoc" },
           sync_install = false,
           auto_install = false,
           highlight = { enable = true },
