@@ -11,7 +11,6 @@ set hlsearch
 set ignorecase
 set smartcase
 set showmatch
-set visualbell
 set mouse=a
 set clipboard=unnamed
 highlight Comment ctermfg=green
