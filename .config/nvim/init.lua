@@ -91,7 +91,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 -- Setup lazy.nvim
-require("lazy").setup({
+require("lazy").setup {
   {
     -- main color scheme
     {
@@ -150,13 +150,6 @@ require("lazy").setup({
         )
       end
     },
-    -- git decorations
-    {
-      "lewis6991/gitsigns.nvim",
-      config = function()
-        require("gitsigns").setup()
-      end
-    },
     -- fuzzy finder
     {
       'junegunn/fzf.vim',
@@ -176,13 +169,11 @@ require("lazy").setup({
         lspconfig.pyright.setup {
           settings = {
             pyright = {
-              -- Using Ruff's import organizer
-              disableOrganizeImports = true,
+              disableOrganizeImports = true, -- Using Ruff's import organizer
             },
             python = {
               analysis = {
-                -- Ignore all files for analysis to exclusively use Ruff for linting
-                ignore = { '*' },
+                ignore = { '*' }, -- Ignore all files for analysis to exclusively use Ruff for linting
                 typeCheckingMode = 'off', -- use Mypy instead
               },
             },
@@ -310,4 +301,4 @@ require("lazy").setup({
       end
     }
   }
-})
+}
