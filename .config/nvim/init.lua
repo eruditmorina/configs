@@ -67,7 +67,7 @@ end)
 -- shortcuts
 -------------------------------------------------------------------------------
 -- search files
-vim.keymap.set('', '<C-p>', '<cmd>Files<cr>')
+vim.keymap.set('', '<C-p>', '<cmd>GFiles<cr>')
 -- search buffers
 vim.keymap.set('n', '<leader>.', '<cmd>Buffers<cr>')
 
@@ -176,6 +176,7 @@ require("lazy").setup {
                 ignore = { '*' }, -- Ignore all files for analysis to exclusively use Ruff for linting
                 typeCheckingMode = 'off', -- use Mypy instead
               },
+              pythonPath = ".venv/bin/python",
             },
           },
         }
