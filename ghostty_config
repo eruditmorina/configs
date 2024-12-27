@@ -1,0 +1,3 @@
+shell-integration-features = no-cursor
+macos-option-as-alt = true
+theme = Dark Pastel
