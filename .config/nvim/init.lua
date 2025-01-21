@@ -70,6 +70,8 @@ end)
 vim.keymap.set('', '<C-p>', '<cmd>GFiles<cr>')
 -- search buffers
 vim.keymap.set('n', '<leader>.', '<cmd>Buffers<cr>')
+-- search with grep
+vim.keymap.set('n', '<leader>s', '<cmd>RG<cr>')
 
 -------------------------------------------------------------------------------
 -- plugin configuration
@@ -174,7 +176,6 @@ require("lazy").setup {
             python = {
               analysis = {
                 ignore = { '*' }, -- Ignore all files for analysis to exclusively use Ruff for linting
-                typeCheckingMode = 'off', -- use Mypy instead
               },
               pythonPath = ".venv/bin/python",
             },
@@ -210,9 +211,11 @@ require("lazy").setup {
     {
       'mfussenegger/nvim-lint',
       config = function()
-        require("lint").linters_by_ft = {
-          python = { "mypy" }
-        }
+        if vim.fn.executable("mypy") == 1 then
+          require("lint").linters_by_ft = {
+            python = { "mypy" }
+          }
+        end
         vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {
           callback = function()
             -- try_lint without arguments runs the linters defined in `linters_by_ft` for the current filetype
@@ -268,6 +271,14 @@ require("lazy").setup {
             { name = 'buffer' },
           }),
           performance = { debounce = 0, throttle = 0 },
+          -- disable completion in comments
+          enabled = function()
+            if require"cmp.config.context".in_treesitter_capture("comment")==true or require"cmp.config.context".in_syntax_group("Comment") then
+              return false
+            else
+              return true
+            end
+          end,
         })
         -- enable completing paths in ':'
         cmp.setup.cmdline(':', {
