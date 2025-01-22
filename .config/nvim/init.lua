@@ -217,11 +217,9 @@ require("lazy").setup {
     {
       'mfussenegger/nvim-lint',
       config = function()
-        if vim.fn.executable("mypy") == 1 then
-          require("lint").linters_by_ft = {
-            python = { "mypy" }
-          }
-        end
+        require("lint").linters_by_ft = {
+          python = { "mypy" }
+        }
         vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {
           callback = function()
             -- try_lint without arguments runs the linters defined in `linters_by_ft` for the current filetype
