@@ -48,15 +48,6 @@
           "pythonPath": ".venv/bin/python"
         }
       }
-    },
-    "rust-analyzer": {
-      "checkOnSave": {
-        "allTargets": false
-      },
-      "check": {
-        "allTargets": false,
-        "overrideCommand": ["cargo", "build", "--message-format=json"]
-      }
     }
   }
 }
