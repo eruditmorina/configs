@@ -15,8 +15,6 @@ vim.opt.scrolloff = 2
 vim.opt.wrap = false
 -- always draw sign column. prevents buffer moving when adding/deleting sign
 vim.opt.signcolumn = 'yes'
--- relative line numbers
--- vim.opt.relativenumber = true
 -- show the absolute line number for the current line
 vim.opt.number = true
 -- keep current content top + left when splitting
@@ -95,7 +93,7 @@ vim.opt.rtp:prepend(lazypath)
 -- Setup lazy.nvim
 require("lazy").setup {
   {
-    -- main color scheme
+    -- main colorscheme
     {
       "ellisonleao/gruvbox.nvim",
       lazy = false, -- load at start

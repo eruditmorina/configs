@@ -8,9 +8,6 @@ set shiftwidth=2
 set tabstop=2
 set ai
 set hlsearch
-set ignorecase
-set smartcase
-set showmatch
 set mouse=a
 set clipboard=unnamed
 highlight Comment ctermfg=green
