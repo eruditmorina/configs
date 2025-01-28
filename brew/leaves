@@ -1,4 +1,6 @@
 awscli
+bash
+bash-completion@2
 fzf
 git
 go
@@ -8,6 +10,7 @@ nvm
 openjdk
 pyenv
 redis
+ripgrep
 tmux
 tree
 vim
