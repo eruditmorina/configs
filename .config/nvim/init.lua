@@ -95,24 +95,15 @@ require("lazy").setup {
   {
     -- main colorscheme
     {
-      "ellisonleao/gruvbox.nvim",
+      "gruvbox-community/gruvbox",
       lazy = false, -- load at start
       priority = 1000, -- load first
       config = function()
-        require("gruvbox").setup({
-          underline = false,
-          italic = {
-            strings = false,
-            emphasis = false,
-            comments = false,
-            folds = false,
-          },
-          contrast = "dark",
-          overrides = {
-            Comment = { fg = "orange" },
-          },
-        })
+        vim.g.gruvbox_italic = 0
+        vim.g.gruvbox_contrast_dark = "hard"
         vim.cmd([[colorscheme gruvbox]])
+        -- Make comments more prominent -- they are important.
+        vim.api.nvim_set_hl(0, 'Comment', { fg = "orange" })
       end
     },
     -- nice bottom bar
