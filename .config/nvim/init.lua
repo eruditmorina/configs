@@ -103,7 +103,8 @@ require("lazy").setup {
         vim.g.gruvbox_contrast_dark = "hard"
         vim.cmd([[colorscheme gruvbox]])
         -- Make comments more prominent -- they are important.
-        vim.api.nvim_set_hl(0, 'Comment', { fg = "orange" })
+        local bools = vim.api.nvim_get_hl(0, { name = 'Boolean' })
+        vim.api.nvim_set_hl(0, 'Comment', bools)
       end
     },
     -- nice bottom bar
