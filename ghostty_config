@@ -1,4 +1,5 @@
 shell-integration-features = no-cursor
+font-feature = -calt
 macos-option-as-alt = true
 theme = GruvboxDarkHard
 background = #1d2021
