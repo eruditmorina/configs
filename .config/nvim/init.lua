@@ -27,8 +27,7 @@ vim.opt.undofile = true
 -- in completion, when there is more than one match,
 -- list all matches, and only complete to longest common match
 vim.opt.wildmode = 'list:longest'
--- when opening a file with a command (like :e),
--- don't suggest files from:
+-- when opening a file with a command (like :e) don't suggest files from:
 vim.opt.wildignore = '.hg,.svn,*~,*.png,*.jpg,*.gif,*.min.js,*.swp,*.o,vendor,dist,_site'
 -- tabs vs spaces
 vim.opt.shiftwidth = 2
@@ -56,10 +55,7 @@ vim.opt.listchars = 'tab:^ ,nbsp:¬,extends:»,precedes:«,trail:•'
 -- enable mouse mode
 vim.opt.mouse = 'a'
 -- sync clipboard
--- schedule the setting after `UiEnter` because it can increase startup-time
-vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
-end)
+vim.opt.clipboard = 'unnamedplus'
 
 -------------------------------------------------------------------------------
 -- shortcuts
