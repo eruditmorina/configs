@@ -58,16 +58,6 @@ vim.opt.mouse = 'a'
 vim.opt.clipboard = 'unnamedplus'
 
 -------------------------------------------------------------------------------
--- shortcuts
--------------------------------------------------------------------------------
--- search files
-vim.keymap.set('', '<C-p>', '<cmd>GFiles<cr>')
--- search buffers
-vim.keymap.set('n', '<leader>.', '<cmd>Buffers<cr>')
--- search with grep
-vim.keymap.set('n', '<leader>s', '<cmd>RG<cr>')
-
--------------------------------------------------------------------------------
 -- plugin configuration
 -------------------------------------------------------------------------------
 -- get the manager: https://github.com/folke/lazy.nvim
@@ -146,11 +136,36 @@ require("lazy").setup {
     },
     -- fuzzy finder
     {
-      'junegunn/fzf.vim',
-      dependencies = { 'junegunn/fzf' },
+      'nvim-telescope/telescope.nvim',
+      dependencies = { 'nvim-lua/plenary.nvim' },
       config = function()
-        -- stop putting a giant window over my editor
-        vim.g.fzf_layout = { down = '~20%' }
+        require("telescope").setup {
+          defaults = {
+            -- stop putting a giant window over my editor
+            layout_config = {
+              bottom_pane = { height = 20, prompt_position = "bottom" }
+            },
+            layout_strategy = "bottom_pane",
+            -- enhanced search
+            file_ignore_patterns = { ".git/" },
+            vimgrep_arguments = {
+              "rg",
+              "--color=never",
+              "--no-heading",
+              "--with-filename",
+              "--line-number",
+              "--column",
+              "--smart-case",
+              "--hidden",
+              "--ignore-vcs",
+            }
+          }
+        }
+        local builtin = require 'telescope.builtin'
+        vim.keymap.set('', '<C-p>', builtin.git_files)
+        vim.keymap.set('n', '<leader>ff', builtin.find_files)
+        vim.keymap.set('n', '<leader>s', builtin.live_grep)
+        vim.keymap.set('n', '<leader>.', builtin.buffers)
       end
     },
     -- LSP Configs
