@@ -316,6 +316,12 @@ require("lazy").setup {
           highlight = { enable = true },
         }
       end
+    },
+    {
+      "tpope/vim-fugitive",
+      config = function()
+        vim.keymap.set('n', '<leader>gb', '<cmd>Git blame<cr>')
+      end
     }
   }
 }
