@@ -56,6 +56,8 @@ vim.opt.listchars = 'tab:^ ,nbsp:¬,extends:»,precedes:«,trail:•'
 vim.opt.mouse = 'a'
 -- sync clipboard
 vim.opt.clipboard = 'unnamedplus'
+-- decrease update time
+vim.opt.updatetime = 250
 
 -------------------------------------------------------------------------------
 -- plugin configuration
@@ -317,6 +319,7 @@ require("lazy").setup {
         }
       end
     },
+    -- git stuff
     {
       "tpope/vim-fugitive",
       config = function()
