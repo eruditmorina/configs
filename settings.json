@@ -21,5 +21,6 @@
   "[yaml]": {
     "editor.formatOnSave": false
   },
-  "gitlens.telemetry.enabled": false
+  "gitlens.telemetry.enabled": false,
+  "vim.useSystemClipboard": true
 }
