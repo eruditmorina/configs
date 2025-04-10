@@ -56,8 +56,6 @@ vim.opt.listchars = 'tab:^ ,nbsp:¬,extends:»,precedes:«,trail:•'
 vim.opt.mouse = 'a'
 -- sync clipboard
 vim.opt.clipboard = 'unnamedplus'
--- decrease update time
-vim.opt.updatetime = 250
 
 -------------------------------------------------------------------------------
 -- plugin configuration
@@ -166,13 +164,7 @@ require("lazy").setup {
           desc = 'LSP: Disable hover capability from Ruff',
         })
         -- Rust
-        lspconfig.rust_analyzer.setup {
-          settings = {
-            ['rust-analyzer'] = {
-              cargo = { features = "all" }
-            }
-          }
-        }
+        lspconfig.rust_analyzer.setup {}
       end
     },
     -- linter
