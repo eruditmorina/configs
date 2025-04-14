@@ -40,5 +40,8 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
 
+# postgres
+export PATH="/usr/local/pgsql/bin:$PATH"
+
 # fzf
 eval "$(fzf --bash)"
