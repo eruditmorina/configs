@@ -93,47 +93,6 @@ require("lazy").setup {
         vim.api.nvim_set_hl(0, 'Comment', bools)
       end
     },
-    -- nice bottom bar
-    {
-      'itchyny/lightline.vim',
-      lazy = false, -- also load at start since it's UI
-      config = function()
-        -- no need to also show mode in cmd line when we have bar
-        vim.o.showmode = false
-        vim.g.lightline = {
-          active = {
-            left = {
-              { 'mode', 'paste' },
-              { 'readonly', 'filename', 'modified' }
-            },
-            right = {
-              { 'lineinfo' },
-              { 'percent' },
-              { 'fileencoding', 'filetype' }
-            },
-          },
-          component_function = {
-            filename = 'LightlineFilename'
-          },
-        }
-        function LightlineFilenameInLua(opts)
-          if vim.fn.expand('%:t') == '' then
-            return '[No Name]'
-          else
-            return vim.fn.getreg('%')
-          end
-        end
-        -- https://github.com/itchyny/lightline.vim/issues/657
-        vim.api.nvim_exec(
-          [[
-          function! g:LightlineFilename()
-            return v:lua.LightlineFilenameInLua()
-          endfunction
-          ]],
-          true
-        )
-      end
-    },
     -- fuzzy finder
     {
       'nvim-telescope/telescope.nvim',
@@ -189,21 +148,23 @@ require("lazy").setup {
           },
         }
         -- Ruff
-        lspconfig.ruff.setup {}
-        vim.api.nvim_create_autocmd("LspAttach", {
-          group = vim.api.nvim_create_augroup('lsp_attach_disable_ruff_hover', { clear = true }),
-          callback = function(args)
-            local client = vim.lsp.get_client_by_id(args.data.client_id)
-            if client == nil then
-              return
-            end
-            if client.name == 'ruff' then
-              -- Disable hover in favor of Pyright
-              client.server_capabilities.hoverProvider = false
-            end
-          end,
-          desc = 'LSP: Disable hover capability from Ruff',
-        })
+        if vim.fn.executable("ruff") == 1 then
+          lspconfig.ruff.setup {}
+          vim.api.nvim_create_autocmd("LspAttach", {
+            group = vim.api.nvim_create_augroup('lsp_attach_disable_ruff_hover', { clear = true }),
+            callback = function(args)
+              local client = vim.lsp.get_client_by_id(args.data.client_id)
+              if client == nil then
+                return
+              end
+              if client.name == 'ruff' then
+                -- Disable hover in favor of Pyright
+                client.server_capabilities.hoverProvider = false
+              end
+            end,
+            desc = 'LSP: Disable hover capability from Ruff',
+          })
+        end
         -- Rust
         lspconfig.rust_analyzer.setup {}
       end
@@ -212,8 +173,12 @@ require("lazy").setup {
     {
       'mfussenegger/nvim-lint',
       config = function()
+        local python_linters = {}
+        if vim.fn.executable("mypy") == 1 then
+          table.insert(python_linters, "mypy")
+        end
         require("lint").linters_by_ft = {
-          python = { "mypy" }
+          python = python_linters
         }
         vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {
           callback = function()
